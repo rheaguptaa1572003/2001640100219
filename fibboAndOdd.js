@@ -1,53 +1,45 @@
+const generateFibonacciNumbers = (limit) => {
+  const fibonacciNumbers = [0, 1];
+
+  for (let i = 2; i <= limit; i++) {
+    const nextFibonacciNumber = fibonacciNumbers[i - 1] + fibonacciNumbers[i - 2];
+    if (nextFibonacciNumber > limit) break;
+    fibonacciNumbers.push(nextFibonacciNumber);
+  }
+
+  return fibonacciNumbers;
+};
+const calculateUnion = (fibonacciNumbers, limit) => {
+  const oddNumbers = [];
+  for (let i = 1; i <= limit; i += 2) {
+    oddNumbers.push(i);
+  }
+
+  // Calculate the union of Fibonacci numbers and odd numbers
+  const union = new Set([...fibonacciNumbers, ...oddNumbers]);
+  return Array.from(union).sort((a, b) => a - b);
+};
 import React, { useState } from 'react';
 
-const FibonacciAndOddNumbers = () => {
-  const [fibonacciSeries, setFibonacciSeries] = useState([]);
-  const [oddNumbers, setOddNumbers] = useState([]);
-  const [count, setCount] = useState(10); 
+const FibonacciOddUnion = () => {
+  const limit = 100; // Adjust the limit as needed
 
-  const generateFibonacciAndOddNumbers = () => {
-    const fibonacci = [];
-    const oddNums = [];
-    let num1 = 0;
-    let num2 = 1;
-
-    for (let i = 1; i <= count; i++) {
-      fibonacci.push(num1);
-      if (num1 % 2 !== 0) {
-        oddNums.push(num1);
-      }
-      const temp = num2;
-      num2 = num1 + num2;
-      num1 = temp;
-    }
-
-    setFibonacciSeries(fibonacci);
-    setOddNumbers(oddNums);
-  };
+  // Generate Fibonacci numbers and calculate the union
+  const fibonacciNumbers = generateFibonacciNumbers(limit);
+  const unionNumbers = calculateUnion(fibonacciNumbers, limit);
 
   return (
     <div>
-      <button onClick={generateFibonacciAndOddNumbers}>Generate Fibonacci and Odd Numbers</button>
-
-      <div>
-        <h2>Fibonacci Series:</h2>
-        <ul>
-          {fibonacciSeries.map((num, index) => (
-            <li key={`fib-${index}`}>{num}</li>
-          ))}
-        </ul>
-      </div>
-
-      <div>
-        <h2>Odd Numbers:</h2>
-        <ul>
-          {oddNumbers.map((num, index) => (
-            <li key={`odd-${index}`}>{num}</li>
-          ))}
-        </ul>
-      </div>
+      <h1>Fibonacci and Odd Numbers Union</h1>
+      <p>Union of Fibonacci and odd numbers up to {limit}:</p>
+      <ul>
+        {unionNumbers.map((number) => (
+          <li key={number}>{number}</li>
+        ))}
+      </ul>
     </div>
   );
 };
 
-export default FibonacciAndOddNumbers;
+export default FibonacciOddUnion;
+
